@@ -17,14 +17,9 @@ package org.uncommons.reportng;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 import org.testng.IInvokedMethod;
 import org.testng.ISuite;
 import org.testng.ISuiteResult;
@@ -443,5 +438,29 @@ public class ReportNGUtils
     public String formatPercentage(int numerator, int denominator)
     {
         return PERCENTAGE_FORMAT.format(numerator / (double) denominator);
+    }
+
+    /**
+     * 添加截图方法
+     * @param s
+     * @return
+     */
+    public String getImageString(String s)
+    {
+        String regex = "(<img(.*?)/>)";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(s);
+        while (matcher.find()) {
+            String group = matcher.group(1);
+            //可根据实际情况多个图片 全部一起return
+            return group;
+        }
+        return "";
+    }
+
+
+    public String removeImage(String s)
+    {
+        return  s.replaceAll("<img(.*?)/>","");
     }
 }

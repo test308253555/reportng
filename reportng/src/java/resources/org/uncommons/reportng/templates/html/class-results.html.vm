@@ -46,10 +46,15 @@
     #if ($output.size() > 0)
     <div class="testOutput">
       #foreach( $line in $output )
-        #if ($meta.shouldEscapeOutput())
+        #*#if ($meta.shouldEscapeOutput())
           $utils.escapeHTMLString($line)<br />
         #else
           $line
+        #end*#
+        #if ($meta.shouldEscapeOutput())
+          $utils.escapeHTMLString($utils.removeImage($line))<br />
+        #else
+          $utils.removeImage($line)<br />
         #end
       #end
     </div>
@@ -75,6 +80,20 @@
     </div>
     #end
     #set ($id = $id + 1)
+  </td>
+  <td class="screenshot">
+    #set ($output = $utils.getTestOutput($testResult))
+    #if ($output.size() > 0)
+        <div class="screenshotimage">
+          #foreach( $line in $output )
+            #if ($meta.shouldEscapeOutput())
+              $utils.escapeHTMLString($utils.getImageString($line))<br/>
+            #else
+              $utils.getImageString($line)<br/>
+            #end
+          #end
+        </div>
+    #end
   </td>
 </tr>
 #end
